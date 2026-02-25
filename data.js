@@ -26,7 +26,7 @@ const DEFAULT_SITE_DATA = {
         "Рассрочка 0% на все виды лечения",
         "Гарантия на работы — до 15 лет"
     ],
-    heroImage: "assets/hero.jpg",
+    heroImage: "/assets/hero.jpg",
 
     /* ---------- TRUST BADGES ---------- */
     trustBadges: [
@@ -66,42 +66,42 @@ const DEFAULT_SITE_DATA = {
             title: "Виниры E-max",
             desc: "Тончайшие керамические накладки — идеальная форма и цвет зубов за один-два визита.",
             priceFrom: 250000,
-            image: "assets/service-veneers.jpg",
+            image: "/assets/service-1.jpg",
             featured: true
         },
         {
             title: "Имплантация",
             desc: "Импланты Straumann и Nobel с пожизненной гарантией производителя. Установка за 30 минут.",
             priceFrom: 350000,
-            image: "assets/service-implant.jpg",
+            image: "/assets/service-2.jpg",
             featured: false
         },
         {
             title: "Отбеливание ZOOM 4",
             desc: "До 8 тонов за одну процедуру. Без повреждения эмали, результат держится до 3 лет.",
             priceFrom: 120000,
-            image: "assets/service-whitening.jpg",
+            image: "/assets/service-3.jpg",
             featured: false
         },
         {
             title: "Лечение и реставрация",
             desc: "Кариес, пульпит, художественная реставрация. Работаем под микроскопом — точность до 0.1 мм.",
             priceFrom: 25000,
-            image: "assets/service-therapy.jpg",
+            image: "/assets/service-4.jpg",
             featured: false
         },
         {
             title: "Элайнеры",
             desc: "Прозрачные капы для выравнивания зубов. Незаметны, комфортны, результат за 6–12 месяцев.",
             priceFrom: 1800000,
-            image: "assets/service-orthodontics.jpg",
+            image: "/assets/service-5.jpg",
             featured: false
         },
         {
             title: "Профгигиена",
             desc: "Ультразвук + Air Flow + полировка. Здоровые дёсны и свежее дыхание за 60 минут.",
             priceFrom: 25000,
-            image: "assets/service-surgery.jpg",
+            image: "/assets/service-6.jpg",
             featured: false
         }
     ],
@@ -111,22 +111,22 @@ const DEFAULT_SITE_DATA = {
         {
             title: "Комплексная реставрация улыбки",
             caption: "8 керамических виниров E-max — коррекция формы, цвета и прикуса.",
-            beforeImage: "assets/case-1-before.jpg",
-            afterImage: "assets/case-1-after.jpg",
+            beforeImage: "/assets/before-1.jpg",
+            afterImage: "/assets/after-1.jpg",
             duration: "5 дней"
         },
         {
             title: "Имплантация жевательной группы",
             caption: "3 импланта Straumann с коронками из диоксида циркония. Полное восстановление функции.",
-            beforeImage: "assets/case-2-before.jpg",
-            afterImage: "assets/case-2-after.jpg",
+            beforeImage: "/assets/before-2.jpg",
+            afterImage: "/assets/after-2.jpg",
             duration: "3 месяца"
         },
         {
             title: "Отбеливание + микро-реставрация",
             caption: "ZOOM 4 отбеливание на 6 тонов + композитная реставрация двух передних зубов.",
-            beforeImage: "assets/case-3-before.jpg",
-            afterImage: "assets/case-3-after.jpg",
+            beforeImage: "/assets/before-3.jpg",
+            afterImage: "/assets/after-3.jpg",
             duration: "1 день"
         }
     ],
@@ -139,7 +139,7 @@ const DEFAULT_SITE_DATA = {
             experience: "14 лет опыта",
             badges: ["Invisalign Provider", "Member of DGI"],
             skills: ["Виниры", "Коронки", "Мосты", "Полные реабилитации"],
-            photo: "assets/doctor-1.jpg"
+            photo: "/assets/doctor-1.jpg"
         },
         {
             name: "Марина Светлова",
@@ -147,7 +147,7 @@ const DEFAULT_SITE_DATA = {
             experience: "11 лет опыта",
             badges: ["Straumann Certified", "Nobel Biocare"],
             skills: ["Имплантация", "Костная пластика", "Синус-лифтинг"],
-            photo: "assets/doctor-2.jpg"
+            photo: "/assets/doctor-2.jpg"
         },
         {
             name: "Дарья Ким",
@@ -155,7 +155,7 @@ const DEFAULT_SITE_DATA = {
             experience: "9 лет опыта",
             badges: ["ZOOM Certified", "Стажировки в Германии"],
             skills: ["Отбеливание", "Реставрации", "Лечение под микроскопом"],
-            photo: "assets/doctor-3.jpg"
+            photo: "/assets/doctor-3.jpg"
         }
     ],
 
