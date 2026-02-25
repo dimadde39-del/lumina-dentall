@@ -745,60 +745,67 @@
                 $("#login-email").addEventListener("keydown", e => { if (e.key === "Enter") $("#login-pass").focus() });
             }
 
-            // === FIX: ensure DEFAULT_SITE_DATA is available before building ===
+            // === FIX v2: data.js is loaded synchronously (no defer/async),
+            //     so DEFAULT_SITE_DATA is GUARANTEED to exist here.
+            //     No polling needed. If it's missing — data.js has a syntax error or 404. ===
             async function showAdmin() {
-                console.log("[ADMIN FIX] showAdmin() called");
+                console.log("[ADMIN] showAdmin() called");
                 $("#login-screen").style.display = "none";
                 $("#admin-panel").classList.add("is-active");
-                // Wait for data.js to be ready
-                await waitForDataJs();
+
+                // --- Debug: verify data.js loaded ---
+                if (typeof DEFAULT_SITE_DATA === "undefined") {
+                    console.error("[ADMIN] FATAL: DEFAULT_SITE_DATA is undefined. data.js did not load or has a syntax error. Check Network tab for 404 on data.js.");
+                } else {
+                    console.log("[ADMIN] DEFAULT_SITE_DATA OK, keys:", Object.keys(DEFAULT_SITE_DATA).length);
+                }
+
                 await loadData();
-                console.log("[ADMIN FIX] DATA loaded, keys:", Object.keys(DATA));
+                console.log("[ADMIN] DATA loaded, keys:", Object.keys(DATA));
                 buildNav();
                 buildSections();
                 switchSection(SECTIONS[0].id);
                 initActions();
-                console.log("[ADMIN FIX] Admin panel fully initialized");
-            }
-
-            // === FIX: poll until window.DEFAULT_SITE_DATA exists (max 5 sec) ===
-            function waitForDataJs() {
-                return new Promise(resolve => {
-                    if (window.DEFAULT_SITE_DATA && Object.keys(window.DEFAULT_SITE_DATA).length > 0) {
-                        console.log("[ADMIN FIX] DEFAULT_SITE_DATA already available");
-                        return resolve();
-                    }
-                    console.log("[ADMIN FIX] Waiting for DEFAULT_SITE_DATA...");
-                    let elapsed = 0;
-                    const iv = setInterval(() => {
-                        elapsed += 100;
-                        if (window.DEFAULT_SITE_DATA && Object.keys(window.DEFAULT_SITE_DATA).length > 0) {
-                            clearInterval(iv);
-                            console.log("[ADMIN FIX] DEFAULT_SITE_DATA ready after " + elapsed + "ms");
-                            resolve();
-                        } else if (elapsed >= 5000) {
-                            clearInterval(iv);
-                            console.warn("[ADMIN FIX] DEFAULT_SITE_DATA timeout — using empty fallback");
-                            resolve();
-                        }
-                    }, 100);
-                });
+                console.log("[ADMIN] Admin panel fully initialized");
             }
 
             async function loadData() {
-                // === FIX: safe fallback if DEFAULT_SITE_DATA is still missing ===
-                const baseFallback = window.DEFAULT_SITE_DATA || { services: [], cases: [], doctors: [], testimonials: [], prices: [], trustBadges: [], why: [], quiz: { steps: [], finalBonusText: "" }, contacts: {} };
+                // Always start from DEFAULT_SITE_DATA as the base (never empty object)
+                const base = (typeof DEFAULT_SITE_DATA !== "undefined" && Object.keys(DEFAULT_SITE_DATA).length > 0)
+                    ? deepClone(DEFAULT_SITE_DATA)
+                    : { brand: "", nav: [], heroTitle: "", heroSubtitle: "", heroBullets: [], heroImage: "", trustBadges: [], why: [], services: [], cases: [], doctors: [], testimonials: [], prices: [], quiz: { steps: [], finalBonusText: "" }, contacts: {} };
+
+                // 1. Try Supabase cloud
                 try {
                     const { data, error } = await supa.from("site_settings").select("data").eq("id", "lumina").single();
                     if (!error && data && data.data && Object.keys(data.data).length > 0) {
-                        DATA = Object.assign({}, deepClone(baseFallback), data.data);
-                        console.log("[ADMIN FIX] Data loaded from Supabase");
-                        toast("Данные загружены из облака", "info"); return;
+                        DATA = Object.assign({}, base, data.data);
+                        console.log("[ADMIN] Data loaded from Supabase (" + Object.keys(data.data).length + " keys)");
+                        toast("Данные загружены из облака", "info");
+                        return;
                     }
-                } catch (e) { console.warn("[ADMIN FIX] Supabase load error", e) }
-                try { const ls = localStorage.getItem(LS_KEY); if (ls) DATA = Object.assign({}, deepClone(baseFallback), JSON.parse(ls)); else DATA = deepClone(baseFallback); } catch (e) { DATA = deepClone(baseFallback) }
-                console.log("[ADMIN FIX] Data loaded from localStorage/fallback");
-                toast("Загружены локальные данные", "info");
+                    console.log("[ADMIN] Supabase returned no data (error:", error?.message || "empty result", ")");
+                } catch (e) { console.warn("[ADMIN] Supabase load error:", e.message) }
+
+                // 2. Try localStorage (but validate it's not garbage)
+                try {
+                    const ls = localStorage.getItem(LS_KEY);
+                    if (ls) {
+                        const parsed = JSON.parse(ls);
+                        if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 5) {
+                            DATA = Object.assign({}, base, parsed);
+                            console.log("[ADMIN] Data loaded from localStorage (" + Object.keys(parsed).length + " keys)");
+                            toast("Загружены локальные данные", "info");
+                            return;
+                        }
+                        console.warn("[ADMIN] localStorage data looks incomplete (" + Object.keys(parsed).length + " keys), ignoring");
+                    }
+                } catch (e) { console.warn("[ADMIN] localStorage parse error:", e.message) }
+
+                // 3. Use DEFAULT_SITE_DATA as-is
+                DATA = base;
+                console.log("[ADMIN] Using DEFAULT_SITE_DATA as base (" + Object.keys(DATA).length + " keys)");
+                toast("Загружены данные по умолчанию", "info");
             }
 
             function buildNav() {
@@ -1196,9 +1203,10 @@ ${fieldHTML("Google Maps Embed URL", "contacts.mapEmbedUrl", c.mapEmbedUrl, "tex
             }
 
             /* =================== INIT =================== */
-            // === FIX: wait for DOM + data.js before starting ===
             function startAdmin() {
-                console.log("[ADMIN FIX] startAdmin() — DOM ready, launching initAuth");
+                console.log("[ADMIN] startAdmin() — DOM ready");
+                console.log("[ADMIN] data.js loaded?", typeof DEFAULT_SITE_DATA !== "undefined");
+                console.log("[ADMIN] supabase loaded?", typeof window.supabase !== "undefined");
                 initAuth();
             }
             if (document.readyState === "loading") {
