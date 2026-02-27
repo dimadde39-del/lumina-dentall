@@ -1,19 +1,19 @@
 /* ============================================================
-   LUMINA DENTAL — Medical Premium Minimalism 2026
+   DEMOKRAT АЛМАТЫ — Modern Dark Professional 2026
    index.css
    ============================================================ */
 
 /* --- TOKENS --- */
 :root {
   /* Palette */
-  --bg: #0B0F14;
-  --bg-section: #111820;
-  --surface: #1A2230;
-  --text: #F0F2F5;
+  --bg: #0A0E14;
+  --bg-section: #0F1620;
+  --surface: #182230;
+  --text: #EDF0F5;
   --text-muted: #8A94A6;
-  --accent-trust: #4EA8DE;
-  --accent-cta: #E8915A;
-  --accent-cta-hover: #F0A46E;
+  --accent-trust: #3B7DD8;
+  --accent-cta: #C0392B;
+  --accent-cta-hover: #D44637;
   --success: #34D399;
   --error: #F87171;
 
@@ -31,10 +31,10 @@
   --radius-full: 999px;
 
   /* Shadows */
-  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.18);
-  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.30);
-  --shadow-cta: 0 8px 24px rgba(232, 145, 90, 0.25);
-  --shadow-focus: 0 0 0 3px rgba(78, 168, 222, 0.25);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.22);
+  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-cta: 0 8px 24px rgba(192, 57, 43, 0.3);
+  --shadow-focus: 0 0 0 3px rgba(59, 125, 216, 0.25);
 
   /* Spacing */
   --space-xs: 4px;
@@ -320,8 +320,8 @@ h3 {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent-trust);
-  background: rgba(78, 168, 222, 0.1);
-  border: 1px solid rgba(78, 168, 222, 0.15);
+  background: rgba(59, 125, 216, 0.1);
+  border: 1px solid rgba(59, 125, 216, 0.15);
   border-radius: var(--radius-full);
   margin-bottom: var(--space-md);
 }
@@ -552,7 +552,7 @@ h3 {
   right: -20%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(78, 168, 222, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 125, 216, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -563,7 +563,7 @@ h3 {
   left: -10%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(232, 145, 90, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(192, 57, 43, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -587,8 +587,8 @@ h3 {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent-trust);
-  background: rgba(78, 168, 222, 0.1);
-  border: 1px solid rgba(78, 168, 222, 0.15);
+  background: rgba(59, 125, 216, 0.1);
+  border: 1px solid rgba(59, 125, 216, 0.15);
   border-radius: var(--radius-full);
   margin-bottom: var(--space-lg);
 }
@@ -739,7 +739,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(78, 168, 222, 0.1);
+  background: rgba(59, 125, 216, 0.1);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-lg);
   font-size: 1.5rem;
